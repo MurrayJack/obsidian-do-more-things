@@ -158,7 +158,13 @@ export class ThingsView extends ItemView {
 				const grouped = {};
 
 				todos.forEach(t => {
-					const projectName = t.project() ? t.project().name() : 'No Project';
+					const area = t.area() ? t.area().name() : undefined;
+					let projectName = t.project() ? t.project().name() : undefined;
+					
+					if (!projectName) {
+						projectName = area ? area : 'No Project';
+					}
+
 					if (!grouped[projectName]) {
 						grouped[projectName] = [];
 					}
@@ -171,9 +177,16 @@ export class ThingsView extends ItemView {
 
 					grouped[project].forEach(t => {
 						const checked = t.status() === 'open' ? '' : 'checked';
+						const tags = t.tags().map(tag => tag.name()).join(', ');
+
 						content += '<li style="display:flex;gap:0.5rem;align-items:center;">';
 						content += '<input type="checkbox" class="things-today-checkbox" ' + checked + ' tid="' + t.id() + '" />';
 						content += '<a href="things:///show?id=' + t.id() + '">' + t.name() + '</a>';
+
+						if (tags.length > 0) {
+							content += '<span style="font-size: 0.8em; color: #888;">[' + tags + ']</span>';
+						}
+
 						content += '</a></li>';
 					});
 					content += '</ul>';
