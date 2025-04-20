@@ -1,19 +1,19 @@
-import { exec } from "child_process";
+import { exec } from 'child_process';
 import {
 	ItemView,
 	WorkspaceLeaf,
 	Notice,
 	Plugin,
 	PluginManifest,
-} from "obsidian";
+} from 'obsidian';
 
-export const VIEW_TYPE_THINGS3 = "things3-today";
+export const VIEW_TYPE_THINGS3 = 'things3-today';
 
 export default class ObsidianThings3 extends Plugin {
 	async onload() {
 		this.addCommand({
-			id: "open-today",
-			name: "Open Today",
+			id: 'open-today',
+			name: 'Open Today',
 			callback: () => {
 				this.activateThings3View();
 			},
@@ -24,7 +24,7 @@ export default class ObsidianThings3 extends Plugin {
 			(leaf) => new ThingsView(leaf, this.manifest)
 		);
 
-		this.addRibbonIcon("check-square", "Open Things3 Today", () => {
+		this.addRibbonIcon('check-square', 'Open Things3 Today', () => {
 			this.activateThings3View();
 		});
 
@@ -60,7 +60,7 @@ export class ThingsView extends ItemView {
 
 	getIcon(): string {
 		// https://github.com/obsidianmd/obsidian-api/issues/3
-		return "check-square";
+		return 'check-square';
 	}
 
 	getViewType() {
@@ -68,7 +68,7 @@ export class ThingsView extends ItemView {
 	}
 
 	getDisplayText() {
-		return "Things3 Today";
+		return 'Things3 Today';
 	}
 
 	async onOpen() {
@@ -88,22 +88,22 @@ export class ThingsView extends ItemView {
 		// get today List
 		const rawHtml = await this.getTodayListByJXA();
 		const parser = new DOMParser();
-		const doc = parser.parseFromString(rawHtml, "text/html");
+		const doc = parser.parseFromString(rawHtml, 'text/html');
 		const node = doc.documentElement;
 
 		container.empty();
-		container.createEl("h4", { text: "Things3 Today" });
-		container.createEl("a", {
-			href: "things:///show?id=today",
-			text: "Open Today",
+		container.createEl('h4', { text: 'Things3 Today' });
+		container.createEl('a', {
+			href: 'things:///show?id=today',
+			text: 'Open Today',
 		});
-		container.createEl("br");
-		container.createEl("br");
+		container.createEl('br');
+		container.createEl('br');
 
-		const button = document.createElement("button");
-		button.innerText = "Refresh";
+		const button = document.createElement('button');
+		button.innerText = 'Refresh';
 
-		button.addEventListener("click", () => {
+		button.addEventListener('click', () => {
 			// Notifications will only be displayed if the button is clicked.
 			this.refreshTodayView(0, true);
 		});
@@ -111,11 +111,11 @@ export class ThingsView extends ItemView {
 		container.appendChild(button);
 
 		// add click event
-		const inputCheckboxes = node.querySelectorAll(".things-today-checkbox");
+		const inputCheckboxes = node.querySelectorAll('.things-today-checkbox');
 		inputCheckboxes.forEach((checkbox) => {
 			// console.log(checkbox)
 			checkbox.addEventListener(
-				"click",
+				'click',
 				this.handleCheckboxClick.bind(this)
 			);
 		});
@@ -130,7 +130,7 @@ export class ThingsView extends ItemView {
 		const clickedCheckbox = event.target as HTMLInputElement;
 
 		const todoId =
-			clickedCheckbox.attributes.getNamedItem("tid")?.value || "";
+			clickedCheckbox.attributes.getNamedItem('tid')?.value || '';
 		await this.completeTodoByJXA(todoId);
 
 		clickedCheckbox.parentNode?.detach();
@@ -145,7 +145,7 @@ export class ThingsView extends ItemView {
 		this.refreshTimer = setTimeout(() => {
 			this.getAndShowTodayTodos();
 			if (notice) {
-				new Notice("Today Refreshed");
+				new Notice('Today Refreshed');
 			}
 		}, delay);
 	}
@@ -172,19 +172,19 @@ export class ThingsView extends ItemView {
 				});
 
 				for (const project in grouped) {
-					content += '<p style="font-weight:bold;border-bottom: 1px solid #333;padding:0;margin:0;margin-bottom:0.5rem;padding-bottom:0.25rem">' + project + '</p>';
-					content += '<ul style="display:grid;gap:0.5rem;list-style:none;padding:0;margin:0;padding-bottom:2rem" tid="' + grouped[project][0].id() + '">';
+					content += '<p class="things3-today-header">' + project + '</p>';
+					content += '<ul class="things3-today-list" tid="' + grouped[project][0].id() + '">';
 
 					grouped[project].forEach(t => {
 						const checked = t.status() === 'open' ? '' : 'checked';
 						const tags = t.tags().map(tag => tag.name()).join(', ');
 
-						content += '<li style="display:flex;gap:0.5rem;align-items:center;">';
+						content += '<li class="things3-today-list-item">';
 						content += '<input type="checkbox" class="things-today-checkbox" ' + checked + ' tid="' + t.id() + '" />';
 						content += '<a href="things:///show?id=' + t.id() + '">' + t.name() + '</a>';
 
 						if (tags.length > 0) {
-							content += '<span style="font-size: 0.8em; color: #888;">[' + tags + ']</span>';
+							content += '<span class="things3-today-list-tag">[' + tags + ']</span>';
 						}
 
 						content += '</a></li>';
@@ -192,12 +192,12 @@ export class ThingsView extends ItemView {
 					content += '</ul>';
 				}
 
-				return '<div style="padding-top:2rem">' + content + '</div>';
+				return '<div class="things3-today-content">' + content + '</div>';
 			}
 			getTodayList();
 		`
 			.replace(/"/g, '\\"')
-			.replace(/\n/g, " ");
+			.replace(/\n/g, ' ');
 
 		return new Promise((resolve) => {
 			exec(
