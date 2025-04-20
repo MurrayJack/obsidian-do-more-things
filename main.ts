@@ -5,12 +5,27 @@ import {
 	Notice,
 	Plugin,
 	PluginManifest,
+	PluginSettingTab,
+	Setting,
+	App,
 } from 'obsidian';
+
+interface Things3PluginSettings {
+	groupByProject: boolean;
+}
+
+const DEFAULT_SETTINGS: Things3PluginSettings = {
+	groupByProject: true,
+};
 
 export const VIEW_TYPE_THINGS3 = 'things3-today';
 
 export default class ObsidianThings3 extends Plugin {
+	settings: Things3PluginSettings;
+
 	async onload() {
+		await this.loadSettings();
+
 		this.addCommand({
 			id: 'open-today',
 			name: 'Open Today',
@@ -21,15 +36,29 @@ export default class ObsidianThings3 extends Plugin {
 
 		this.registerView(
 			VIEW_TYPE_THINGS3,
-			(leaf) => new ThingsView(leaf, this.manifest)
+			(leaf) => new ThingsView(leaf, this)
 		);
 
 		this.addRibbonIcon('check-square', 'Open Things3 Today', () => {
 			this.activateThings3View();
 		});
 
+		this.addSettingTab(new Things3SettingTab(this.app, this));
+
 		// trigger this on layout ready
 		this.app.workspace.onLayoutReady(this.activateThings3View.bind(this));
+	}
+
+	async loadSettings() {
+		this.settings = Object.assign(
+			{},
+			DEFAULT_SETTINGS,
+			await this.loadData()
+		);
+	}
+
+	async saveSettings() {
+		await this.saveData(this.settings);
 	}
 
 	async activateThings3View() {
@@ -52,10 +81,11 @@ export class ThingsView extends ItemView {
 	intervalValue: NodeJS.Timer;
 	refreshTimer: NodeJS.Timer;
 	manifest: PluginManifest;
+	plugin: ObsidianThings3;
 
-	constructor(leaf: WorkspaceLeaf, manifest: PluginManifest) {
+	constructor(leaf: WorkspaceLeaf, plugin: ObsidianThings3) {
 		super(leaf);
-		this.manifest = manifest;
+		this.plugin = plugin;
 	}
 
 	getIcon(): string {
@@ -151,6 +181,8 @@ export class ThingsView extends ItemView {
 	}
 
 	getTodayListByJXA(): Promise<string> {
+		const getTodayListSct = `"function getTodayList() { let content = ''; Application('Things').lists.byId('TMTodayListSource').toDos().forEach(t => { let checked = t.status()=='open' ? '' : 'checked'; content += '<ul><input '+ checked +'  type="checkbox" class="things-today-checkbox" tid=\\"' + t.id() + '\\"><div style="display:contents"><a href=\\"things:///show?id=' + t.id() + '\\">' + t.name() + '</a></div></ul>'; }); return content; }; getTodayList();"`;
+
 		const getTodayListScript = `
 			function getTodayList() {
 				let content = '';
@@ -200,12 +232,21 @@ export class ThingsView extends ItemView {
 			.replace(/\n/g, ' ');
 
 		return new Promise((resolve) => {
-			exec(
-				`osascript -l JavaScript -e "${getTodayListScript}"`,
-				(err, stdout, stderr) => {
-					resolve(stdout);
-				}
-			);
+			if (this.plugin.settings.groupByProject) {
+				exec(
+					`osascript -l JavaScript -e "${getTodayListScript}"`,
+					(err, stdout, stderr) => {
+						resolve(stdout);
+					}
+				);
+			} else {
+				exec(
+					`osascript -l JavaScript -e ` + getTodayListSct,
+					(err, stdout, stderr) => {
+						resolve(stdout);
+					}
+				);
+			}
 		});
 	}
 
@@ -223,5 +264,35 @@ export class ThingsView extends ItemView {
 				}
 			);
 		});
+	}
+}
+
+class Things3SettingTab extends PluginSettingTab {
+	plugin: ObsidianThings3;
+
+	constructor(app: App, plugin: ObsidianThings3) {
+		super(app, plugin);
+		this.plugin = plugin;
+	}
+
+	display(): void {
+		const { containerEl } = this;
+
+		containerEl.empty();
+		containerEl.createEl('h2', { text: 'Things3 Plugin Settings' });
+
+		new Setting(containerEl)
+			.setName('Group By Project')
+			.setDesc(
+				'Whether to group tasks by project in the Today view, click the refresh button force the new view.'
+			)
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.groupByProject)
+					.onChange(async (value) => {
+						this.plugin.settings.groupByProject = value;
+						await this.plugin.saveSettings();
+					})
+			);
 	}
 }
