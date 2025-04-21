@@ -121,6 +121,8 @@ export class RenderEngine {
 			return '';
 		}
 
-		return `<span class="do-more-things-list-tag">[${tags}]</span>`;
+		return `<span class="do-more-things-list-tag">${tags.join(
+			', '
+		)}</span>`;
 	}
 }
