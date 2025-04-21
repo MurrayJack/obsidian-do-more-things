@@ -62,11 +62,7 @@ function renderTags(tags: string[]) {
 		return '';
 	}
 
-	return tags.map((tag) => {
-		return `<span class="things3-today-list-tag">${tag}</span>`;
-	});
-
-	// return `<span class="things3-today-list-tag">[${tags}]</span>`;
+	return `<span class="things3-today-list-tag">[${tags}]</span>`;
 }
 
 export function bodyHandler(container: HTMLElement, callback: () => void) {
@@ -75,7 +71,6 @@ export function bodyHandler(container: HTMLElement, callback: () => void) {
 		'.things-today-checkbox'
 	);
 	inputCheckboxes.forEach((checkbox) => {
-		// console.log(checkbox)
 		checkbox.addEventListener('click', callback);
 	});
 }
