@@ -79,3 +79,7 @@
     color: var(--text-accent);
     cursor: pointer;
 }
+
+.things-today-checkbox[checked]~a {
+    opacity: 0.5;
+}
