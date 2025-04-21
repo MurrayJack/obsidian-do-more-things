@@ -4,6 +4,8 @@
 
 The Things3 Today Plugin allows you to view and manage your today's tasks from the `Things3 App` directly within an Obsidian pane. This plugin is designed to help you seamlessly integrate task management with your note-taking workflow in Obsidian.
 
+This plugin is based on the great work from:- https://github.com/wudanyang6/obsidian-things3-today
+
 ## Features
 
 -   Displays your Today list from Things3 within Obsidian
@@ -15,7 +17,7 @@ The Things3 Today Plugin allows you to view and manage your today's tasks from t
 
 1. Open Settings in Obsidian.
 2. Navigate to the "Community Plugins" section.
-3. Click on "Browse" and search for "Things3 Today".
+3. Click on "Browse" and search for "Do More Things".
 4. Find the plugin and click "Install".
 5. Once installed, enable the plugin from the list of installed plugins.
 
@@ -25,7 +27,7 @@ Please ensure that you have Things3 installed and running on your Mac.
 
 Once the plugin is installed and enabled, you can view and interact with your Today tasks by following these steps:
 
-1. Click on the "Open Things3 Today" button in the side bar.
+1. Click on the "Open Do More Things" button in the side bar.
 2. Your Today task list will be displayed in the pane.
 3. Click the checkbox next to any task to mark it as completed in Things3.
 4. Click the "Refresh" button to refresh your Today task list
@@ -42,8 +44,7 @@ The current version of the plugin does not require any additional configuration.
 
 If you encounter any issues or need assistance, please reach out through:
 
--   GitHub Issue Tracker: https://github.com/wudanyang6/obsidian-things3-today/issues
--   Email: wu.danyang@qq.com
+-   GitHub Issue Tracker: https://github.com/MurrayJack/obsidian-do-more-things
 
 Feedback and suggestions are always welcome!
 
