@@ -6,19 +6,19 @@ import {
 	Plugin,
 	PluginManifest,
 	PluginSettingTab,
-	Setting,
 	App,
 } from 'obsidian';
-
-interface Things3PluginSettings {
-	groupByProject: boolean;
-}
+import { bodyHandler, bodyRenderer } from 'src/bodyRenderer';
+import { headerHandler, headerRenderer } from 'src/headerRenderer';
+import { tagsHandler, tagsRenderer } from 'src/tagsRenderer';
+import { Things3Data, Things3PluginSettings } from 'src/types';
 
 const DEFAULT_SETTINGS: Things3PluginSettings = {
-	groupByProject: true,
+	listId: 'TMTodayListSource',
+	panelTitle: 'Do More Things',
 };
 
-export const VIEW_TYPE_THINGS3 = 'things3-today';
+export const VIEW_TYPE_THINGS3 = 'do-more-things';
 
 export default class ObsidianThings3 extends Plugin {
 	settings: Things3PluginSettings;
@@ -98,7 +98,7 @@ export class ThingsView extends ItemView {
 	}
 
 	getDisplayText() {
-		return 'Things3 Today';
+		return 'Do More Things';
 	}
 
 	async onOpen() {
@@ -114,46 +114,44 @@ export class ThingsView extends ItemView {
 	}
 
 	async getAndShowTodayTodos() {
-		const container = this.containerEl.children[1];
+		const container = this.containerEl.children[1] as HTMLElement;
+
 		// get today List
 		const rawHtml = await this.getTodayListByJXA();
-		const parser = new DOMParser();
-		const doc = parser.parseFromString(rawHtml, 'text/html');
-		const node = doc.documentElement;
+		const data = JSON.parse(rawHtml) as Things3Data;
+
+		this.buildUI(container, data, (tag: string) => {});
+	}
+
+	buildUI(
+		container: HTMLElement,
+		data: Things3Data,
+		callback: (tag: string) => void
+	) {
+		container.empty();
+
+		const html = `
+			<div class="things3-today-main">
+				<div class="things3-today-header">
+					${headerRenderer()}
+				</div>
+				
+				<div class="things3-today-content">
+					${bodyRenderer(data)}
+				</div>
+			</div>
+		`;
+
+		// 	<div class="things3-today-tags">
+		// 	${tagsRenderer(data)}
+		// </div>
 
 		container.empty();
-		container.createEl('h4', { text: 'Things3 Today' });
-		container.createEl('a', {
-			href: 'things:///show?id=today',
-			text: 'Open Today',
-		});
-		container.createEl('br');
-		container.createEl('br');
+		container.innerHTML = html;
 
-		const button = document.createElement('button');
-		button.innerText = 'Refresh';
-
-		button.addEventListener('click', () => {
-			// Notifications will only be displayed if the button is clicked.
-			this.refreshTodayView(0, true);
-		});
-
-		container.appendChild(button);
-
-		// add click event
-		const inputCheckboxes = node.querySelectorAll('.things-today-checkbox');
-		inputCheckboxes.forEach((checkbox) => {
-			// console.log(checkbox)
-			checkbox.addEventListener(
-				'click',
-				this.handleCheckboxClick.bind(this)
-			);
-		});
-
-		// append body > subEle into container
-		while (node.children[1].children.length > 0) {
-			container.appendChild(node.children[1].children[0]);
-		}
+		headerHandler(container, () => this.refreshTodayView(0, true));
+		tagsHandler(container, callback);
+		bodyHandler(container, () => this.handleCheckboxClick.bind(this));
 	}
 
 	async handleCheckboxClick(event: MouseEvent) {
@@ -181,13 +179,13 @@ export class ThingsView extends ItemView {
 	}
 
 	getTodayListByJXA(): Promise<string> {
-		const getTodayListSct = `"function getTodayList() { let content = ''; Application('Things').lists.byId('TMTodayListSource').toDos().forEach(t => { let checked = t.status()=='open' ? '' : 'checked'; content += '<ul><input '+ checked +'  type="checkbox" class="things-today-checkbox" tid=\\"' + t.id() + '\\"><div style="display:contents"><a href=\\"things:///show?id=' + t.id() + '\\">' + t.name() + '</a></div></ul>'; }); return content; }; getTodayList();"`;
-
 		const getTodayListScript = `
-			function getTodayList() {
-				let content = '';
-				const todos = Application('Things').lists.byId('TMTodayListSource').toDos();
-				const grouped = {};
+			function buildJson() {
+				const json = {};
+				const todos = Application('Things').lists.byId('${this.plugin.settings.listId}').toDos();
+				
+				json.groups = [];
+				json.tags = [];
 
 				todos.forEach(t => {
 					const area = t.area() ? t.area().name() : undefined;
@@ -197,56 +195,48 @@ export class ThingsView extends ItemView {
 						projectName = area ? area : 'No Project';
 					}
 
-					if (!grouped[projectName]) {
-						grouped[projectName] = [];
+					if (!json.groups.includes(projectName)) {
+						json.groups.push(projectName);
 					}
-					grouped[projectName].push(t);
+
+					json[projectName] = json[projectName] || [];
+
+					if (t.tags().length > 0) {
+						t.tags().forEach(tag => {
+							if (!json.tags.includes(tag.name())) {
+								json.tags.push(tag.name());
+							}
+						});
+					}
+
+					json[projectName].push({
+						id: t.id(),
+						name: t.name(),
+						group: projectName,
+						area: t.area() ? t.area().name() : undefined,
+						project: t.project() ? t.project().name() : undefined,
+						status: t.status(),
+						notes: t.notes(),
+						hasNotes: t.notes()?.length ? true : false,
+						tags: t.tags().map(tag => tag.name()),
+						dueDate: t.dueDate() ? t.dueDate().toString() : undefined,
+					});
 				});
 
-				for (const project in grouped) {
-					content += '<p class="things3-today-header">' + project + '</p>';
-					content += '<ul class="things3-today-list" tid="' + grouped[project][0].id() + '">';
-
-					grouped[project].forEach(t => {
-						const checked = t.status() === 'open' ? '' : 'checked';
-						const tags = t.tags().map(tag => tag.name()).join(', ');
-
-						content += '<li class="things3-today-list-item">';
-						content += '<input type="checkbox" class="things-today-checkbox" ' + checked + ' tid="' + t.id() + '" />';
-						content += '<a href="things:///show?id=' + t.id() + '">' + t.name() + '</a>';
-
-						if (tags.length > 0) {
-							content += '<span class="things3-today-list-tag">[' + tags + ']</span>';
-						}
-
-						content += '</a></li>';
-					});
-					content += '</ul>';
-				}
-
-				return '<div class="things3-today-content">' + content + '</div>';
+				return JSON.stringify(json, null, 2);
 			}
-			getTodayList();
+			buildJson();
 		`
 			.replace(/"/g, '\\"')
 			.replace(/\n/g, ' ');
 
 		return new Promise((resolve) => {
-			if (this.plugin.settings.groupByProject) {
-				exec(
-					`osascript -l JavaScript -e "${getTodayListScript}"`,
-					(err, stdout, stderr) => {
-						resolve(stdout);
-					}
-				);
-			} else {
-				exec(
-					`osascript -l JavaScript -e ` + getTodayListSct,
-					(err, stdout, stderr) => {
-						resolve(stdout);
-					}
-				);
-			}
+			exec(
+				`osascript -l JavaScript -e "${getTodayListScript}"`,
+				(err, stdout, stderr) => {
+					resolve(stdout);
+				}
+			);
 		});
 	}
 
@@ -279,20 +269,6 @@ class Things3SettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 
 		containerEl.empty();
-		containerEl.createEl('h2', { text: 'Things3 Plugin Settings' });
-
-		new Setting(containerEl)
-			.setName('Group By Project')
-			.setDesc(
-				'Whether to group tasks by project in the Today view, click the refresh button force the new view.'
-			)
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.groupByProject)
-					.onChange(async (value) => {
-						this.plugin.settings.groupByProject = value;
-						await this.plugin.saveSettings();
-					})
-			);
+		containerEl.createEl('h2', { text: 'Do More Things Plugin Settings' });
 	}
 }

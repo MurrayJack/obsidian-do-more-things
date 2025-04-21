@@ -6,11 +6,24 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
-.things3-today-content {
-    padding-top: 2rem
+.things3-today-main {
+    display: grid;
+    gap: 1rem;
 }
 
 .things3-today-header {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+.things3-today-content {
+    padding-top: 1rem
+}
+
+.things3-today-title {
     font-weight: bold;
     border-bottom: 1px solid var(--background-modifier-border);
     padding: 0;
@@ -29,12 +42,46 @@ If your plugin does not need CSS, delete this file.
 }
 
 .things3-today-list-item {
-    display: flex;
+    display: grid;
     gap: 0.5rem;
     align-items: center;
+    grid-template-columns: auto 1fr auto auto;
 }
 
+.things3-today-list-item a {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.things3-today-note-icon,
 .things3-today-list-tag {
     font-size: var(--font-ui-smaller);
     color: var(--text-faint);
+}
+
+.things3-today-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    overflow: auto;
+}
+
+.things3-today-tag {
+    white-space: nowrap;
+    border: 1px solid var(--background-modifier-border);
+    height: 32px;
+    border-radius: 16px;
+    align-items: center;
+    padding: 0 0.5rem;
+    font-size: var(--font-ui-smaller);
+    display: flex;
+}
+
+.things3-today-tag:hover,
+.things3-today-tag.selected {
+    background-color: var(--background-modifier-accent);
+    color: var(--text-accent);
+    cursor: pointer;
 }

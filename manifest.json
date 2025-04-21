@@ -1,10 +1,10 @@
 {
-	"id": "things3-today",
-	"name": "Things3 Today",
+	"id": "do-more-things",
+	"name": "Do More Things",
 	"version": "1.0.2",
 	"minAppVersion": "0.15.0",
-	"description": "Manage today's tasks with Things3",
-	"author": "wudanyang6",
-	"authorUrl": "https://wudanyang6.github.io/",
+	"description": "Show the today view from things3",
+	"author": "murrayjack",
+	"authorUrl": "",
 	"isDesktopOnly": true
 }
