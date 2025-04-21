@@ -1,3 +1,5 @@
+export const VIEW_TYPE_THINGS3 = 'do-more-things';
+
 export type Things3Data = {
 	groups: string[];
 	tags: string[];
@@ -18,12 +20,10 @@ export type Things3Todo = {
 };
 
 export interface Things3PluginSettings {
-	listId: string;
-	panelTitle: string;
-
-	// showTags: boolean;
+	heading: string;
+	showTags: boolean;
 	// tagsDesign: 'Simple' | 'Things'
-	// showNotesIcon: boolean;
+	showNotesIcon: boolean;
 	// showTagsFilter: boolean;
 	// showNotesOnHover: boolean;
 }
