@@ -22,12 +22,7 @@ export type Things3Todo = {
 export interface Things3PluginSettings {
 	heading: string;
 	showTags: boolean;
-	// tagsDesign: 'Simple' | 'Things'
 	showNotesIcon: boolean;
 	showExpandIcon: boolean;
-	// showTagsFilter: boolean;
-	// showNotesOnHover: boolean;
-	// allowPinning: boolean;
-	// showSearch: boolean;
 	excludeProjects: string;
 }
