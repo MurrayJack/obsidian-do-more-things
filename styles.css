@@ -21,7 +21,10 @@
     padding: 0;
     margin: 0;
     margin-bottom: 0.5rem;
-    padding-bottom: 0.25rem
+    padding-bottom: 0.25rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
 }
 
 .do-more-things-list {
@@ -31,6 +34,10 @@
     padding: 0;
     margin: 0;
     padding-bottom: 2rem
+}
+
+.do-more-things-list.hidden {
+    display: none;
 }
 
 .do-more-things-list-item {
@@ -86,4 +93,26 @@
 
 .things-today-checkbox[checked]~a {
     opacity: 0.5;
+}
+
+.do-more-things-title button {
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    color: var(--text-faint);
+    margin: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.do-more-things-title button.pressed {
+    transform: rotate(180deg);
+
+}
+
+.do-more-things-title button:hover {
+    color: var(--text-accent);
 }

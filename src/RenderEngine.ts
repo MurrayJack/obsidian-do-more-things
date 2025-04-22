@@ -40,6 +40,45 @@ export class RenderEngine {
 				callback('refresh', e);
 			});
 
+		this._container
+			.querySelectorAll('.do-more-things-title-button')
+			.forEach((button) => {
+				button.addEventListener('click', (e) => {
+					const elem = e.currentTarget as HTMLElement;
+					const group = elem.dataset.group;
+					const list = this._container.querySelector(
+						`ul[data-group="${group}"]`
+					) as HTMLElement;
+
+					const isHidden = list.classList.contains('hidden');
+					if (isHidden) {
+						list.classList.remove('hidden');
+						elem.classList.remove('pressed');
+					} else {
+						list.classList.add('hidden');
+						elem.classList.add('pressed');
+					}
+
+					//save to local storage
+					const data = JSON.parse(
+						localStorage.getItem('do-more-things') || '{}'
+					);
+					this._container
+						.querySelectorAll(`ul[data-group="${group}"]`)
+						.forEach((list: HTMLElement) => {
+							const group = list.dataset.group as string;
+							const isHidden = list.classList.contains('hidden');
+							if (group) {
+								data[group] = isHidden;
+							}
+							localStorage.setItem(
+								'do-more-things',
+								JSON.stringify(data)
+							);
+						});
+				});
+			});
+
 		const inputCheckboxes = this._container.querySelectorAll(
 			'.things-today-checkbox'
 		);
@@ -49,14 +88,39 @@ export class RenderEngine {
 				callback('checkbox', e);
 			});
 		});
+
+		const storage = JSON.parse(
+			localStorage.getItem('do-more-things') || '{}'
+		);
+
+		for (const group in storage) {
+			const list = this._container.querySelector(
+				`ul[data-group="${group}"]`
+			) as HTMLElement;
+			if (list) {
+				if (storage[group]) {
+					list.classList.add('hidden');
+				} else {
+					list.classList.remove('hidden');
+				}
+			}
+		}
 	}
 
 	private _bodyRenderer(data: Things3Data) {
 		return data.groups
 			.map((group: string) => {
 				return `
-                    <p class="do-more-things-title">${group}</p>
-                    <ul class="do-more-things-list">
+                    <p class="do-more-things-title">
+						<span>${group}</span>
+						<button data-group="${group}" class="do-more-things-title-button">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<polyline points="6 15 12 9 18 15" />
+							</svg>
+						</button>
+					</p>
+                    
+					<ul data-group="${group}" class="do-more-things-list">
                         ${this._renderGroupList(data[group])}
                     </ul>
                 `;
