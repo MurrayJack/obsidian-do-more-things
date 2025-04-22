@@ -58,12 +58,18 @@ export class DoMoreThingsView extends ItemView {
 
 	async handleCheckboxClick(event: Event) {
 		const clickedCheckbox = event.target as HTMLInputElement;
+		const isChecked = clickedCheckbox.checked;
 
 		const todoId =
 			clickedCheckbox.attributes.getNamedItem('tid')?.value || '';
-		await this.completeTodoByJXA(todoId);
 
-		clickedCheckbox.parentNode?.detach();
+		if (clickedCheckbox.checked) {
+			clickedCheckbox.setAttribute('checked', '');
+		} else {
+			clickedCheckbox.removeAttribute('checked');
+		}
+
+		await this.completeTodoByJXA(todoId, isChecked);
 
 		this.refreshTodayView(3000);
 	}
@@ -141,15 +147,17 @@ export class DoMoreThingsView extends ItemView {
 		});
 	}
 
-	completeTodoByJXA(todoId: string): Promise<string> {
+	completeTodoByJXA(todoId: string, value: boolean): Promise<string> {
 		const completeSct =
-			`"Application('Things').toDos.byId('` +
-			todoId +
-			`').status = 'completed'"`;
+			`Application('Things').toDos.byId('${todoId}').status = '${
+				value ? 'completed' : 'open'
+			}';`
+				.replace(/"/g, '\\"')
+				.replace(/\n/g, ' ');
 
 		return new Promise((resolve) => {
 			exec(
-				`osascript -l JavaScript -e ` + completeSct,
+				`osascript -l JavaScript -e  "${completeSct}"`,
 				(err, stdout, stderr) => {
 					resolve(stdout);
 				}

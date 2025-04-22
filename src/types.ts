@@ -26,4 +26,7 @@ export interface Things3PluginSettings {
 	showNotesIcon: boolean;
 	// showTagsFilter: boolean;
 	// showNotesOnHover: boolean;
+	// allowPinning: boolean;
+	// showSearch: boolean;
+	excludeProjects: string;
 }

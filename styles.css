@@ -80,6 +80,10 @@
     cursor: pointer;
 }
 
+.things-today-checkbox {
+    transition: opacity 0.2s ease-in-out;
+}
+
 .things-today-checkbox[checked]~a {
     opacity: 0.5;
 }

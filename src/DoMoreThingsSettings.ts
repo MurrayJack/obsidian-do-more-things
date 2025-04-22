@@ -6,6 +6,7 @@ export const DEFAULT_SETTINGS: Things3PluginSettings = {
 	showTags: true,
 	showNotesIcon: true,
 	heading: 'Do More Things',
+	excludeProjects: '',
 };
 
 export class DoMoreThingsSettings extends PluginSettingTab {
