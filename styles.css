@@ -116,3 +116,7 @@
 .do-more-things-title button:hover {
     color: var(--text-accent);
 }
+
+.do-more-things-title button[hidden] {
+    display: none;
+}

@@ -24,6 +24,7 @@ export interface Things3PluginSettings {
 	showTags: boolean;
 	// tagsDesign: 'Simple' | 'Things'
 	showNotesIcon: boolean;
+	showExpandIcon: boolean;
 	// showTagsFilter: boolean;
 	// showNotesOnHover: boolean;
 	// allowPinning: boolean;

@@ -113,7 +113,9 @@ export class RenderEngine {
 				return `
                     <p class="do-more-things-title">
 						<span>${group}</span>
-						<button data-group="${group}" class="do-more-things-title-button">
+						<button ${
+							this._plugIn.settings.showExpandIcon ? '' : 'hidden'
+						} data-group="${group}" class="do-more-things-title-button">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 								<polyline points="6 15 12 9 18 15" />
 							</svg>
