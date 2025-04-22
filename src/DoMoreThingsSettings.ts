@@ -60,17 +60,17 @@ export class DoMoreThingsSettings extends PluginSettingTab {
 					})
 			);
 
-		new Setting(containerEl)
-			.setName('Exclude Projects')
-			.setDesc('Comma separated list of projects to exclude')
-			.addText((text) =>
-				text
-					.setValue(this.plugin.settings.excludeProjects)
-					.onChange(async (value) => {
-						this.plugin.settings.excludeProjects = value;
-						await this.plugin.saveSettings();
-					})
-			);
+		// new Setting(containerEl)
+		// 	.setName('Exclude Projects')
+		// 	.setDesc('Comma separated list of projects to exclude')
+		// 	.addText((text) =>
+		// 		text
+		// 			.setValue(this.plugin.settings.excludeProjects)
+		// 			.onChange(async (value) => {
+		// 				this.plugin.settings.excludeProjects = value;
+		// 				await this.plugin.saveSettings();
+		// 			})
+		// 	);
 
 		new Setting(containerEl)
 			.setName('Show Expand Icon')
