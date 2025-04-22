@@ -1,10 +1,10 @@
 {
 	"id": "do-more-things",
 	"name": "Do More Things",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
-	"description": "Show the today view from things3",
-	"author": "murrayjack",
-	"authorUrl": "https://github.com/MurrayJack/obsidian-do-more-things",
+	"description": "Show todays tasks from Things3, grouped by project.",
+	"author": "Murray Jack",
+	"authorUrl": "https://github.com/MurrayJack",
 	"isDesktopOnly": true
 }
