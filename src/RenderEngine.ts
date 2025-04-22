@@ -100,8 +100,14 @@ export class RenderEngine {
 			if (list) {
 				if (storage[group]) {
 					list.classList.add('hidden');
+					this._container
+						.querySelector(`button[data-group="${group}"]`)
+						?.classList.add('pressed');
 				} else {
 					list.classList.remove('hidden');
+					this._container
+						.querySelector(`button[data-group="${group}"]`)
+						?.classList.remove('pressed');
 				}
 			}
 		}
