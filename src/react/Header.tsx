@@ -7,7 +7,7 @@ export const Header = () => {
         callBack("refresh", e.nativeEvent);
     }
 
-    if (!settings.heading) {
+    if (!settings.showHeading) {
         return null;
     }
 

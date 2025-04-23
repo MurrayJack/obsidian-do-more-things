@@ -21,14 +21,14 @@ export const Group = ({group}: {group: string}) => {
             <p className="do-more-things-title">
                 <span>{group}</span>
                 {settings.showExpandIcon && <button aria-pressed={showList} onClick={handleOnClick} data-group={group} className="do-more-things-title-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="6 15 12 9 18 15" />
                     </svg>
                 </button>}
             </p>
 
             {showList && <ul data-group={group} className="do-more-things-list">
-                {data[group].map((item: Things3Todo) => (<Row item={item} />))}
+                {data[group].map((item: Things3Todo) => (<Row key={item.id} item={item} />))}
             </ul>}
         </>
     )

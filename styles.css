@@ -10,8 +10,12 @@
     gap: 0.5rem;
 }
 
+.do-more-things-header h4 {
+    padding: 0;
+    margin: 0;
+}
 
-.do-more-things-content {
+.do-more-things-header~.do-more-things-content {
     padding-top: 1rem
 }
 
