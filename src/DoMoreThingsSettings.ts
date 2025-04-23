@@ -7,6 +7,7 @@ export const DEFAULT_SETTINGS: Things3PluginSettings = {
 	showNotesIcon: true,
 	heading: 'Do More Things',
 	showExpandIcon: true,
+	showHeading: true,
 };
 
 export class DoMoreThingsSettings extends PluginSettingTab {
@@ -58,6 +59,18 @@ export class DoMoreThingsSettings extends PluginSettingTab {
 					.setValue(this.plugin.settings.heading)
 					.onChange(async (value) => {
 						this.plugin.settings.heading = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+		new Setting(containerEl)
+			.setName('Show Heading')
+			.setDesc('Show the heading in the side panel')
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.showHeading)
+					.onChange(async (value) => {
+						this.plugin.settings.showHeading = value;
 						await this.plugin.saveSettings();
 					})
 			);
