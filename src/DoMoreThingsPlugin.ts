@@ -25,7 +25,7 @@ export class DoMoreThingsPlugin extends Plugin {
 			(leaf) => new DoMoreThingsView(leaf, this)
 		);
 
-		this.addRibbonIcon('check-square', 'Open Things3 Today', () => {
+		this.addRibbonIcon('check-square', 'Do More Things', () => {
 			this.activateThings3View();
 		});
 
