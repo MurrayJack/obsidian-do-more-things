@@ -13,18 +13,19 @@ export const Row = ({ item }: { item: Things3Todo }) => {
         callBack("checkbox", e.nativeEvent);
     }
 
+    const url = `things:///show?id=${item.id}`; 
+
     return (
         <li className="do-more-things-list-item">
             <input onClick={handleOnClick} checked={checked} type="checkbox" className="things-today-checkbox" data-tid={item.id} />
 
-            <a href="things:///show?id=${id}">
+            <a href={url}>
                 {item.name}
             </a>
 
-           <RowNoteIcon item={item} />
+            <RowNoteIcon item={item} />
 
             <RowTags item={item} />
-
         </li>
     )
 }

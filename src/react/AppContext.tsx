@@ -1,5 +1,5 @@
 import {createContext, PropsWithChildren, useContext} from "react";
-import { Things3Data, Things3PluginSettings } from "../types";
+import { CallBackType, Things3Data, Things3PluginSettings } from "../types";
 import { DEFAULT_SETTINGS } from "../DoMoreThingsSettings";
 
 export type AppContextType = {
@@ -8,7 +8,7 @@ export type AppContextType = {
     state: {
         [key: string]: boolean;
     };
-    callBack: (event: "refresh" | "checkbox", e: Event) => void
+    callBack: CallBackType
 };
 
 const AppContext = createContext<AppContextType>({
@@ -18,7 +18,7 @@ const AppContext = createContext<AppContextType>({
         tags: [],
     },
     state: {},
-    callBack: (event: "refresh" | "checkbox", e: Event) => {
+    callBack: (event, e) => {
         console.log(event, e);
     }
 });

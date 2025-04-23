@@ -2,7 +2,6 @@ import { exec } from 'child_process';
 import { ItemView, WorkspaceLeaf, Notice, PluginManifest } from 'obsidian';
 import { Things3Data, VIEW_TYPE_THINGS3 } from 'src/types';
 import DoMoreThingsPlugin from 'main';
-// import { RenderEngine } from './RenderEngine';
 import { render } from './ReactRenderer';
 
 export class DoMoreThingsView extends ItemView {

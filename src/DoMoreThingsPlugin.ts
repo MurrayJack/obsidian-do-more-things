@@ -31,7 +31,6 @@ export class DoMoreThingsPlugin extends Plugin {
 
 		this.addSettingTab(new DoMoreThingsSettings(this.app, this));
 
-		// trigger this on layout ready
 		this.app.workspace.onLayoutReady(this.activateThings3View.bind(this));
 	}
 

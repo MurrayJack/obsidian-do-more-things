@@ -3,10 +3,10 @@ import { DoMoreThingsPlugin } from './DoMoreThingsPlugin';
 import { createRoot } from 'react-dom/client';
 import { AppProvider } from './react/AppContext';
 import { Header } from './react/Header';
-import { Things3Data } from './types';
+import { CallBackType, Things3Data } from './types';
 import { Page } from './react/Page';
 
-export function render(_container: HTMLElement, _plugIn: DoMoreThingsPlugin, data: Things3Data, callBack: (event: "refresh" | "checkbox", e: Event) => void) {
+export function render(_container: HTMLElement, _plugIn: DoMoreThingsPlugin, data: Things3Data, callBack: CallBackType) {
 	const container = _container;
 
 	const state = JSON.parse(

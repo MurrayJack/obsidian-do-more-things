@@ -5,8 +5,6 @@ export const Page = () => {
     const { data } = useAppContext();
 
     return (
-        <>
-            {data.groups.map((group) => (<Group group={group} />))}
-        </>
+        data.groups.map((group) => (<Group group={group} />))
     )
 }
