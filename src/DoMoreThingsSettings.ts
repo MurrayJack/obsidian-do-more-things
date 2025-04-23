@@ -6,7 +6,6 @@ export const DEFAULT_SETTINGS: Things3PluginSettings = {
 	showTags: true,
 	showNotesIcon: true,
 	heading: 'Do More Things',
-	excludeProjects: '',
 	showExpandIcon: true,
 };
 
@@ -23,6 +22,9 @@ export class DoMoreThingsSettings extends PluginSettingTab {
 
 		containerEl.empty();
 		containerEl.createEl('h2', { text: 'Do More Things Plugin Settings' });
+		containerEl.createEl('p', {
+			text: 'Changing the setting, requires clicking the refresh button to update',
+		});
 
 		new Setting(containerEl)
 			.setName('Show Tags')
@@ -49,8 +51,8 @@ export class DoMoreThingsSettings extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName('Heading')
-			.setDesc('Heading for the list')
+			.setName('Heading Text')
+			.setDesc('The Heading for the side panel')
 			.addText((text) =>
 				text
 					.setValue(this.plugin.settings.heading)
@@ -61,8 +63,8 @@ export class DoMoreThingsSettings extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName('Show Expand Icon')
-			.setDesc('Show expand icon in the list')
+			.setName('Allow Expand/Collapse Groups')
+			.setDesc('Allow Expand/Collapse Groups in the list')
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.showExpandIcon)
