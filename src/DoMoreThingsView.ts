@@ -2,7 +2,7 @@ import { exec } from 'child_process';
 import { ItemView, WorkspaceLeaf, Notice, PluginManifest } from 'obsidian';
 import { Things3Data, VIEW_TYPE_THINGS3 } from 'src/types';
 import DoMoreThingsPlugin from 'main';
-import { RenderEngine } from './RenderEngine';
+import { render } from './ReactRenderer';
 
 export class DoMoreThingsView extends ItemView {
 	intervalValue: NodeJS.Timer;
@@ -46,8 +46,7 @@ export class DoMoreThingsView extends ItemView {
 		const rawHtml = await this.getTodayListByJXA();
 		const data = JSON.parse(rawHtml) as Things3Data;
 
-		const render = new RenderEngine(container, this.plugin);
-		render.render(data, (event, e) => {
+		render(container, this.plugin, data, (event, e) => {
 			if (event === 'refresh') {
 				this.refreshTodayView(0, true);
 			} else if (event === 'checkbox') {
@@ -61,10 +60,10 @@ export class DoMoreThingsView extends ItemView {
 		const isChecked = clickedCheckbox.checked;
 
 		const todoId =
-			clickedCheckbox.attributes.getNamedItem('tid')?.value || '';
+			clickedCheckbox.attributes.getNamedItem('data-tid')?.value || '';
 
 		if (clickedCheckbox.checked) {
-			clickedCheckbox.setAttribute('checked', '');
+			clickedCheckbox.setAttribute('checked', 'true');
 		} else {
 			clickedCheckbox.removeAttribute('checked');
 		}

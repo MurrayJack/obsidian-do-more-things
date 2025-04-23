@@ -26,3 +26,5 @@ export interface Things3PluginSettings {
 	showExpandIcon: boolean;
 	excludeProjects: string;
 }
+
+export type CallBackType = (event: 'refresh' | 'checkbox', e: Event) => void;

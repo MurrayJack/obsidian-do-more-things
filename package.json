@@ -22,6 +22,10 @@
 		"typescript": "4.7.4"
 	},
 	"dependencies": {
-		"cash-true": "^0.0.2"
+		"@types/react": "^19.1.2",
+		"@types/react-dom": "^19.1.2",
+		"cash-true": "^0.0.2",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0"
 	}
 }
