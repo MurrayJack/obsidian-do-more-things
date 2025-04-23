@@ -1,4 +1,5 @@
 export const VIEW_TYPE_THINGS3 = 'do-more-things';
+export const THINGS3_LOCAL_STORAGE_KEY = 'do-more-things-state';
 
 export type Things3Data = {
 	groups: string[];

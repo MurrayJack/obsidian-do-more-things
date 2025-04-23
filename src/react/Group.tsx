@@ -1,4 +1,4 @@
-import { Things3Todo } from "src/types";
+import { THINGS3_LOCAL_STORAGE_KEY, Things3Todo } from "src/types";
 import { useAppContext } from "./AppContext";
 import { Row } from "./Row";
 import { useState } from "react";
@@ -13,7 +13,7 @@ export const Group = ({group}: {group: string}) => {
     const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         setShowList(!showList);
         state[group] = !showList;
-        localStorage.setItem('do-more-things-state', JSON.stringify(state));
+        localStorage.setItem(THINGS3_LOCAL_STORAGE_KEY, JSON.stringify(state));
     }
 
     return (

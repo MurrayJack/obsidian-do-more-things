@@ -44,6 +44,14 @@ export class DoMoreThingsView extends ItemView {
 		const container = this.containerEl.children[1] as HTMLElement;
 
 		const rawHtml = await this.getTodayListByJXA();
+		if (!rawHtml) {
+			container.empty();
+			container.createEl('p', {
+				text: 'Things3 is not running, please open the application.',
+			});
+			return;
+		}
+
 		const data = JSON.parse(rawHtml) as Things3Data;
 
 		render(container, this.plugin, data, (event, e) => {
