@@ -7,8 +7,7 @@ export const Group = ({group}: {group: string}) => {
 
     const { data, state } = useAppContext();
 
-    const showListState = state[group] == undefined ? true : state[group];
-
+    const showListState = state[group] === undefined ? true : state[group];
     const [showList, setShowList] = useState(showListState);
 
     const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
