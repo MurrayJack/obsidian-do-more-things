@@ -13,7 +13,7 @@ export class DoMoreThingsPlugin extends Plugin {
 		await this.loadSettings();
 
 		this.addCommand({
-			id: 'open-today',
+			id: 'open-dmt-today',
 			name: 'Open Today',
 			callback: () => {
 				this.activateThings3View();
