@@ -62,6 +62,7 @@ export class DoMoreThingsNoteLinker {
 				`#### ${item.name}
 
 Tags: #DoMoreThings ${item.tags.map((tag) => `#${tag}`).join(' ')}
+Project: #${item.project}
 Notes: ${item.notes}
 `
 			);
