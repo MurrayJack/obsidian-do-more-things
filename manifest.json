@@ -3,7 +3,7 @@
 	"name": "Do More Things",
 	"version": "1.0.3",
 	"minAppVersion": "0.15.0",
-	"description": "Show todays tasks from Things3, grouped by project.",
+	"description": "Show todays tasks from Things3, and seamlessly integrate with Obsidian.",
 	"author": "Murray Jack",
 	"authorUrl": "https://github.com/MurrayJack",
 	"isDesktopOnly": true
