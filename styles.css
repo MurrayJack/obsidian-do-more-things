@@ -49,7 +49,25 @@
     gap: 0.5rem;
     align-items: center;
     min-height: 24px;
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto auto auto;
+}
+
+.do-more-things-list-item button {
+    display: none;
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    color: var(--text-faint);
+    margin: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.do-more-things-list-item button.linked,
+.do-more-things-list-item:hover button {
+    display: inline-block;
 }
 
 .do-more-things-list-item a {
