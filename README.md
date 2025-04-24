@@ -2,7 +2,9 @@
 
 ## Introduction
 
-The Things3 Today Plugin allows you to view and manage your today's tasks from the `Things3 App` directly within an Obsidian pane. This plugin is designed to help you seamlessly integrate task management with your note-taking workflow in Obsidian.
+The Do More Things Plugin allows you to view and manage your today's tasks from the `Things3 App` directly within an Obsidian pane. This plugin is designed to help you seamlessly integrate task management with your note-taking workflow in Obsidian.
+
+Create Notes from To-Dos, to add more detail to your everyday tasks, and getting managing all your information from one place.
 
 This plugin is based on the great work from:- https://github.com/wudanyang6/obsidian-things3-today
 
@@ -31,12 +33,17 @@ Once the plugin is installed and enabled, you can view and interact with your To
 2. Your Today task list will be displayed in the pane.
 3. Click the checkbox next to any task to mark it as completed in Things3.
 4. Click the "Refresh" button to refresh your Today task list
+5. Hover over an item to show an button to create a note about this To-Do
 
 When interacting with Things3, a prompt may appear asking for permission to perform operations. You will need to click "Allow" to enable the plugin to communicate with Things3 and perform task updates.
 
 ## Configuration
 
-The current version of the plugin does not require any additional configuration.
+You can configure the following things:-
+
+-   Show or hide collapsible settings
+-   Show or hide notes icons and tags
+-   Create Notes from To-Dos and store them where you want
 
 ## Support and Issue Reporting
 
@@ -52,4 +59,4 @@ If you would like to contribute code or suggestions to this plugin, please feel 
 
 ## License
 
-The Things3 Today Plugin is released under the MIT LICENSE. For more information, please check the LICENSE file.
+The Do More Things Plugin is released under the MIT LICENSE. For more information, please check the LICENSE file.
