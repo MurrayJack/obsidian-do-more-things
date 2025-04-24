@@ -6,11 +6,11 @@ export const RowNoteIcon = ({ item }: { item: Things3Todo }) => {
     const { settings } = useAppContext();
 
     if (!settings.showNotesIcon) {
-        return null;
+        return <span></span>;
     }
 
     if (!item.hasNotes) {
-        return null;
+        return <span></span>;
     }
 
     return (

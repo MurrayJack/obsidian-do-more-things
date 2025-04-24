@@ -6,11 +6,11 @@ export const RowTags = ({ item }: { item: Things3Todo }) => {
     const { settings } = useAppContext();
 
     if (!settings.showTags) {
-        return null;
+        return <span></span>;
     }
 
     if (!item.tags || item.tags.length === 0) {
-        return null;
+        return <span></span>;
     }
 
     return (
