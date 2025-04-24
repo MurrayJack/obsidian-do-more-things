@@ -1,9 +1,13 @@
 import DoMoreThingsPlugin from 'main';
-import { Things3Todo } from './types';
+import { DoMoreThingsPluginSetting, Things3Todo } from './types';
 import { TFile } from 'obsidian';
 
 export class DoMoreThingsNoteLinker {
-	constructor(private readonly _plugIn: DoMoreThingsPlugin) {}
+	private _settings: DoMoreThingsPluginSetting;
+
+	constructor(private readonly _plugIn: DoMoreThingsPlugin) {
+		this._settings = this._plugIn.settings;
+	}
 
 	async ItemHasLinkedNote(item: Things3Todo) {
 		const file = await this._plugIn.app.vault.getAbstractFileByPath(
@@ -17,10 +21,26 @@ export class DoMoreThingsNoteLinker {
 	}
 
 	getFolderName() {
+		const { linkedNoteFolderName } = this._settings;
+
+		if (linkedNoteFolderName) {
+			return linkedNoteFolderName;
+		}
+
 		return 'Do More Things';
 	}
 
 	getFileNameWithPath(item: Things3Todo) {
+		const { linkedNoteNamingSystem } = this._settings;
+
+		if (linkedNoteNamingSystem === 'name') {
+			const fileName = item.name.replace(/[^a-zA-Z0-9]/g, ' ');
+			return `${this.getFolderName()}/${fileName}.md`;
+		}
+		if (linkedNoteNamingSystem === 'id') {
+			return `${this.getFolderName()}/${item.id}.md`;
+		}
+
 		return `${this.getFolderName()}/${item.id}.md`;
 	}
 
@@ -40,7 +60,7 @@ export class DoMoreThingsNoteLinker {
 			fileName,
 			`#### ${item.name}
 
-Tags: ${item.tags.map((tag) => `#${tag}`).join(' ')}
+Tags: #DoMoreThings ${item.tags.map((tag) => `#${tag}`).join(' ')}
 Notes: ${item.notes}
 `
 		);

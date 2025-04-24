@@ -20,12 +20,17 @@ export type Things3Todo = {
 	hasNotes: boolean;
 };
 
-export interface Things3PluginSettings {
+export interface DoMoreThingsPluginSetting {
 	heading: string;
 	showTags: boolean;
 	showNotesIcon: boolean;
 	showExpandIcon: boolean;
 	showHeading: boolean;
+
+	// linked notes
+	allowLinkedNotes: boolean;
+	linkedNoteNamingSystem: 'id' | 'name';
+	linkedNoteFolderName: string;
 }
 
 export type CallBackType = (event: 'refresh' | 'checkbox', e: Event) => void;

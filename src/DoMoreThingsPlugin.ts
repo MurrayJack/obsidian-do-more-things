@@ -1,4 +1,4 @@
-import { Things3PluginSettings, VIEW_TYPE_THINGS3 } from './types';
+import { DoMoreThingsPluginSetting, VIEW_TYPE_THINGS3 } from './types';
 import { WorkspaceLeaf, Plugin } from 'obsidian';
 import {
 	DEFAULT_SETTINGS,
@@ -7,7 +7,7 @@ import {
 import { DoMoreThingsView } from 'src/DoMoreThingsView';
 
 export class DoMoreThingsPlugin extends Plugin {
-	settings: Things3PluginSettings;
+	settings: DoMoreThingsPluginSetting;
 
 	async onload() {
 		await this.loadSettings();

@@ -1,9 +1,9 @@
 import {createContext, PropsWithChildren, useContext} from "react";
-import { CallBackType, Things3Data, Things3PluginSettings, Things3Todo } from "../types";
+import { CallBackType, Things3Data, DoMoreThingsPluginSetting, Things3Todo } from "../types";
 import { DEFAULT_SETTINGS } from "../DoMoreThingsSettings";
 
 export type AppContextType = {
-    settings: Things3PluginSettings;
+    settings: DoMoreThingsPluginSetting;
     data: Things3Data;
     state: {
         [key: string]: boolean;

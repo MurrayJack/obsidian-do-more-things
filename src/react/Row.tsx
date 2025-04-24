@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 
 export const Row = ({ item }: { item: Things3Todo }) => {
     
-    const { callBack, linkNote, linkedNotes } = useAppContext();
+    const { callBack, linkNote, linkedNotes, settings } = useAppContext();
     const [isChecked, setIsChecked] = useState(item.status !== 'open'); // or false by default
     const [hasLinkedNote, setHasLinkedNote] = useState(false);
 
@@ -43,7 +43,7 @@ export const Row = ({ item }: { item: Things3Todo }) => {
 
             <RowTags item={item} />
 
-            <button className={hasLinkedNote ? "linked" : ""} title="Create linked Page" onClick={handleLinkNote} type="button">📙</button>
+            {settings.allowLinkedNotes ? <button className={hasLinkedNote ? "linked" : ""} title="Create linked Page" onClick={handleLinkNote} type="button">📙</button> : <span></span>}
         </li>
     )
 }
