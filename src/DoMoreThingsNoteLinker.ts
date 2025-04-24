@@ -9,7 +9,7 @@ export class DoMoreThingsNoteLinker {
 		this._settings = this._plugIn.settings;
 	}
 
-	async ItemHasLinkedNote(item: Things3Todo) {
+	async itemHasLinkedNote(item: Things3Todo) {
 		const file = await this._plugIn.app.vault.getAbstractFileByPath(
 			this.getFileNameWithPath(item)
 		);
@@ -56,14 +56,16 @@ export class DoMoreThingsNoteLinker {
 
 		const fileName = this.getFileNameWithPath(item);
 
-		await this._plugIn.app.vault.create(
-			fileName,
-			`#### ${item.name}
+		if (!this.itemHasLinkedNote(item)) {
+			await this._plugIn.app.vault.create(
+				fileName,
+				`#### ${item.name}
 
 Tags: #DoMoreThings ${item.tags.map((tag) => `#${tag}`).join(' ')}
 Notes: ${item.notes}
 `
-		);
+			);
+		}
 
 		return fileName;
 	}
