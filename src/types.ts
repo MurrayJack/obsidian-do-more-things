@@ -25,7 +25,6 @@ export interface DoMoreThingsPluginSetting {
 	showTags: boolean;
 	showNotesIcon: boolean;
 	showExpandIcon: boolean;
-	showHeading: boolean;
 
 	// linked notes
 	allowLinkedNotes: boolean;

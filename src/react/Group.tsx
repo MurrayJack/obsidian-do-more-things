@@ -20,6 +20,7 @@ export const Group = ({group}: {group: string}) => {
         <>
             <p className="do-more-things-title">
                 <span>{group}</span>
+                <span className={`count ${showList ? "": "no-list"}`}>({data[group].length})</span>
                 {settings.showExpandIcon && <button aria-pressed={showList} onClick={handleOnClick} data-group={group} className="do-more-things-title-button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="6 15 12 9 18 15" />

@@ -56,7 +56,7 @@ export class DoMoreThingsNoteLinker {
 
 		const fileName = this.getFileNameWithPath(item);
 
-		if (!this.itemHasLinkedNote(item)) {
+		if (!(await this.itemHasLinkedNote(item))) {
 			await this._plugIn.app.vault.create(
 				fileName,
 				`#### ${item.name}

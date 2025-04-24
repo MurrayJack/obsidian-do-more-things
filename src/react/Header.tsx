@@ -7,10 +7,6 @@ export const Header = () => {
         callBack("refresh", e.nativeEvent);
     }
 
-    if (!settings.showHeading) {
-        return null;
-    }
-
     return (
         <div className="do-more-things-header">
         <h4>{settings.heading}</h4>

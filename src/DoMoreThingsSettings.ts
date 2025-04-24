@@ -3,11 +3,17 @@ import { App, PluginSettingTab, Setting } from 'obsidian';
 import { DoMoreThingsPluginSetting } from './types';
 
 export const DEFAULT_SETTINGS: DoMoreThingsPluginSetting = {
-	showTags: true,
-	showNotesIcon: true,
+	// header settings
 	heading: 'Do More Things',
+
+	// Project Settings
 	showExpandIcon: true,
-	showHeading: true,
+	// showToDoCount: true,
+
+	// To-Do Settings
+	showTags: true,
+	// tagsVisualStyle: '',
+	showNotesIcon: true,
 
 	// linked notes
 	allowLinkedNotes: true,
@@ -29,12 +35,48 @@ export class DoMoreThingsSettings extends PluginSettingTab {
 		containerEl.empty();
 		containerEl.createEl('h2', { text: 'Do More Things Plugin Settings' });
 		containerEl.createEl('p', {
-			text: 'Changing the setting, requires clicking the refresh button to update, or restart the app.',
+			text: 'Changing the settings, requires clicking the refresh button to update, or restart the app.',
 		});
 
+		containerEl.createEl('h3', { text: 'Header Settings' });
+
 		new Setting(containerEl)
-			.setName('Show Tags')
-			.setDesc('Show tags in the list')
+			.setName('Heading Title Text')
+			.setDesc('The Heading text used at the top of the side panel')
+			.addText((text) =>
+				text
+					.setValue(this.plugin.settings.heading)
+					.onChange(async (value) => {
+						this.plugin.settings.heading = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+		containerEl.createEl('h3', { text: 'Group Settings' });
+
+		new Setting(containerEl)
+			.setName('Allow Expand/Collapse Groups')
+			.setDesc(
+				'Allow Expand/Collapse Groups to show and hide the list of To-Do items'
+			)
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.showExpandIcon)
+					.onChange(async (value) => {
+						this.plugin.settings.showExpandIcon = value;
+						await this.plugin.saveSettings();
+					})
+			);
+
+		// the count settins
+
+		containerEl.createEl('h3', { text: 'To-Do Settings' });
+
+		new Setting(containerEl)
+			.setName('Show Tag List')
+			.setDesc(
+				'Shows the tags associated with this To-Do item from Things3'
+			)
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.showTags)
@@ -46,48 +88,14 @@ export class DoMoreThingsSettings extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Show Notes Icon')
-			.setDesc('Show notes icon in the list')
+			.setDesc(
+				'Shows an icon when the ToDo item has notes entered in Things3'
+			)
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.showNotesIcon)
 					.onChange(async (value) => {
 						this.plugin.settings.showNotesIcon = value;
-						await this.plugin.saveSettings();
-					})
-			);
-
-		new Setting(containerEl)
-			.setName('Heading Text')
-			.setDesc('The Heading for the side panel')
-			.addText((text) =>
-				text
-					.setValue(this.plugin.settings.heading)
-					.onChange(async (value) => {
-						this.plugin.settings.heading = value;
-						await this.plugin.saveSettings();
-					})
-			);
-
-		new Setting(containerEl)
-			.setName('Show Heading')
-			.setDesc('Show the heading in the side panel')
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.showHeading)
-					.onChange(async (value) => {
-						this.plugin.settings.showHeading = value;
-						await this.plugin.saveSettings();
-					})
-			);
-
-		new Setting(containerEl)
-			.setName('Allow Expand/Collapse Groups')
-			.setDesc('Allow Expand/Collapse Groups in the list')
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.showExpandIcon)
-					.onChange(async (value) => {
-						this.plugin.settings.showExpandIcon = value;
 						await this.plugin.saveSettings();
 					})
 			);

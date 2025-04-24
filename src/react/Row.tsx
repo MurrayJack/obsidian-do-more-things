@@ -27,6 +27,7 @@ export const Row = ({ item }: { item: Things3Todo }) => {
         e.preventDefault();
         e.stopPropagation();
         linkNote(item);
+        setHasLinkedNote(true);
     }
 
     const url = `things:///show?id=${item.id}`; 
