@@ -36,7 +36,7 @@ export const Row = ({ item }: { item: Things3Todo }) => {
         <li className="do-more-things-list-item">
             <input onChange={handleCheckboxChange} onClick={handleOnClick} checked={isChecked} type="checkbox" className="things-today-checkbox" data-tid={item.id} />
 
-            <a href={url}>
+            <a href={url} title={item.name}>
                 {item.name}
             </a>
 
