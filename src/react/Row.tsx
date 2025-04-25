@@ -3,16 +3,13 @@ import { RowTags } from "./RowTags"
 import { RowNoteIcon } from "./RowNoteIcon"
 import { useAppContext } from "./AppContext"
 import { useEffect, useState } from "react"
+import { Things3Manager } from "../things3/Things3Manager"
 
 export const Row = ({ item }: { item: Things3Todo }) => {
     
-    const { callBack, linkNote, linkedNotes, settings } = useAppContext();
+    const { linkNote, linkedNotes, settings } = useAppContext();
     const [isChecked, setIsChecked] = useState(item.status !== 'open'); // or false by default
     const [hasLinkedNote, setHasLinkedNote] = useState(false);
-
-    const handleOnClick = (e: React.MouseEvent<HTMLInputElement>) => {
-        callBack("checkbox", e.nativeEvent);
-    }
 
     useEffect(() => {
         const linkedNote = linkedNotes.find((note) => note.id === item.id);
@@ -20,6 +17,8 @@ export const Row = ({ item }: { item: Things3Todo }) => {
     }, [linkedNotes])
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const things = new Things3Manager();
+        things.completeTodoByJXA(item.id, e.target.checked );
         setIsChecked(e.target.checked);
     };
 
@@ -34,7 +33,7 @@ export const Row = ({ item }: { item: Things3Todo }) => {
 
     return (
         <li className="do-more-things-list-item">
-            <input onChange={handleCheckboxChange} onClick={handleOnClick} checked={isChecked} type="checkbox" className="things-today-checkbox" data-tid={item.id} />
+            <input onChange={handleCheckboxChange} checked={isChecked} type="checkbox" className="things-today-checkbox" data-tid={item.id} />
 
             <a href={url} title={item.name}>
                 {item.name}

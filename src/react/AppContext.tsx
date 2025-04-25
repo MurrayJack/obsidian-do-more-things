@@ -1,14 +1,13 @@
-import {createContext, PropsWithChildren, useContext} from "react";
-import { CallBackType, Things3Data, DoMoreThingsPluginSetting, Things3Todo } from "../types";
+import { createContext, PropsWithChildren, useContext } from "react";
+import { Things3Data, DoMoreThingsPluginSetting, Things3Todo } from "../types";
 import { DEFAULT_SETTINGS } from "../DoMoreThingsSettings";
 
 export type AppContextType = {
     settings: DoMoreThingsPluginSetting;
-    data: Things3Data;
+    data?: Things3Data;
     state: {
         [key: string]: boolean;
     };
-    callBack: CallBackType;
     linkNote: (item: Things3Todo) => void;
     linkedNotes: {
         id: string,
@@ -25,9 +24,6 @@ const AppContext = createContext<AppContextType>({
         tags: [],
     },
     state: {},
-    callBack: (event, e) => {
-        console.log(event, e);
-    },
     linkNote: () => {
         console.log("linkNote");
     },
@@ -38,8 +34,12 @@ export const useAppContext = () => useContext(AppContext);
 
 export const AppProvider = ({ children, ...value }: PropsWithChildren<AppContextType>) => {
     return (
-        <AppContext.Provider value={value}>
-            {children}
-        </AppContext.Provider>
+        <>
+            {!value.data && <div>Loading...</div>}
+
+            {value.data && <AppContext.Provider value={{...value}}>
+                {children}
+            </AppContext.Provider>}
+        </>
     );
 }

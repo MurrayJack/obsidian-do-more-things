@@ -25,6 +25,7 @@
 		"@types/react": "^19.1.2",
 		"@types/react-dom": "^19.1.2",
 		"cash-true": "^0.0.2",
+		"langchain": "^0.3.24",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0"
 	}
