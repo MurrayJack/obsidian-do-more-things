@@ -14,7 +14,8 @@ export type AppContextType = {
         extension:  string,
         name:  string,
         path:  string,
-    }[]
+    }[],
+    refreshData: () => void;
 };
 
 const AppContext = createContext<AppContextType>({
@@ -28,6 +29,9 @@ const AppContext = createContext<AppContextType>({
         console.log("linkNote");
     },
     linkedNotes: [],
+    refreshData: () => {
+        console.log("refreshData");
+    },
 });
 
 export const useAppContext = () => useContext(AppContext);

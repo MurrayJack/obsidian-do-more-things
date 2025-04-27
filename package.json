@@ -27,6 +27,7 @@
 		"cash-true": "^0.0.2",
 		"langchain": "^0.3.24",
 		"react": "^19.1.0",
-		"react-dom": "^19.1.0"
+		"react-dom": "^19.1.0",
+		"vectra": "^0.1.2"
 	}
 }

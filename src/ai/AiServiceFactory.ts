@@ -13,7 +13,7 @@ export async function buildPrompt(data: Things3Data) {
 	const todo = [];
 
 	for (const group of data.groups) {
-		todo.push(...data[group]);
+		todo.push(...data[group].filter((e) => e.status === 'open'));
 	}
 
 	return `
@@ -27,11 +27,14 @@ You task is to review this JSON text and return the most important item in the l
 3. Return the item in the JSON format show in output.
 
 ## USER RELEVANT CONTEXT ##
-- Items mentioning must be completed.
-- Items that are overdue.
-- Items that are due today.
-- Items that are due tomorrow.
-- Items that are due this week.
+- Items that are tagged with "Must Complete".
+- Items that are tagged with "urgent".
+- Items that are tagged with "important".
+- Items that are tagged with "today".
+- Items that are tagged with "tomorrow".
+- Items that are tagged with "this week".
+- Items that are tagged with "this month".
+- Items that are tagged with "Planning".
 
 ** INPUT FORMAT **
 The JSON text will be in the following format:

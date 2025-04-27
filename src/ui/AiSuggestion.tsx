@@ -1,4 +1,4 @@
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppContext } from './AppContext';
 import { buildPrompt, getAiService } from "../ai/AiServiceFactory"
 import { Row } from './Row';
@@ -13,6 +13,10 @@ export const AiSuggestion: React.FC = () => {
     useEffect( () => {
         const service = getAiService('gemma:latest', 0.1, 10000);
 
+        if (!data) {
+            return;
+        }
+
         buildPrompt(data).then((prompt) => {
               service.serviceCall(prompt).then((response) => {
                 console.log("AI Response: ", response);
@@ -26,7 +30,7 @@ export const AiSuggestion: React.FC = () => {
     return (
         <div>
             <h4 className='do-more-things-ai-heading'>AI: Do this Next</h4>
-            <ul className='do-more-things-list'>
+            <ul className='do-more-things-list ai'>
                 {nextSuggestion && <p><Row item={JSON.parse(nextSuggestion)} /></p>}
             </ul>
         </div>

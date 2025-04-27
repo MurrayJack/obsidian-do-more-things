@@ -14,6 +14,6 @@ export const RowTags = ({ item }: { item: Things3Todo }) => {
     }
 
     return (
-        <span className="do-more-things-list-tag">{item.tags.join(", ")}</span>
+        <span className="do-more-things-list-tag">{item.tags.sort().join(", ")}</span>
     );
 }
